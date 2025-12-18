@@ -18,10 +18,14 @@
 
   <?php
 
-    require_once __DIR__ . '/Carro.php';
+  require_once __DIR__ . '\Class\Carro.php';
+  require_once __DIR__ . '\Class\Categorias.php';
 
-    $lista_carros = new Carro();
-    $carros = $lista_carros->listar();
+  $lista_carros = new Carro();
+  $carros = $lista_carros->listar();
+
+  $lista_categorias = new Categoria();
+  $categorias = $lista_categorias->listarCategorias();
 
   ?>
 
@@ -39,7 +43,7 @@
         </div>
       </a>
 
-      <nav class="nav" role="navigation" aria-label="Menu principal"> 
+      <nav class="nav" role="navigation" aria-label="Menu principal">
         <a href="#cars">Veículos</a>
         <a href="#about">Sobre</a>
         <button class="btn" id="open-reserve">Reservar</button>
@@ -55,25 +59,30 @@
         </div>
 
         <aside class="search-card" aria-label="Busca de veículos">
-          <form id="search-form">
+          <form id="search-form" name="pesquisa">
             <div class="form-group">
               <label for="category">Categoria do veículo</label>
               <select id="category" name="category">
                 <option value="all">Todas as categorias</option>
-                <option value="Econômico">Econômico</option>
-                <option value="Executivo">Executivo</option>
-                <option value="suv">SUV</option>
+
+                <?php foreach ($categorias as $categoria): ?>
+                  <option value="<?= $categoria['nome'] ?>">
+                    <?= $categoria['nome'] ?>
+                  </option>
+
+                <?php endforeach; ?>
+
               </select>
             </div>
 
             <div class="search-row">
               <div style="flex:1">
                 <label for="from">Retirada</label>
-                <input id="from" type="date" aria-label="Data de retirada" />
+                <input id="from" type="date" aria-label="Data de retirada" name="data_retirada"/>
               </div>
               <div style="flex:1">
                 <label for="to">Devolução</label>
-                <input id="to" type="date" aria-label="Data de devolução" />
+                <input id="to" type="date" aria-label="Data de devolução" name="data_devolucao"/>
               </div>
             </div>
 
@@ -99,7 +108,7 @@
 
           <?php foreach ($carros as $carro): ?>
 
-            <article class="card" data-category="<?= $carro['categoria'] ?>" data-price="95">
+            <article class="card" data-category="<?= $carro['categoria'] ?>" data-price="<?= $carro['preco_diaria'] ?>">
               <img class="card-media" src="<?= $carro['imagem_url'] ?>" alt="<?= $carro['modelo'] ?>" loading="lazy" />
               <div class="card-body">
                 <div>
@@ -113,10 +122,10 @@
               </div>
               <div class="card-actions">
                 <button class="btn btn-lease" data-id="1">Alugar agora</button>
-                <a href="#" class="details-link">Ver detalhes e fotos</a>
+                <a href="/carros/carro.php&id=<?= $carro['id'] ?>" class="details-link">Ver detalhes e fotos</a>
               </div>
             </article>
-            
+
           <?php endforeach; ?>
 
 

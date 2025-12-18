@@ -19,14 +19,14 @@
    });
  }
 
- form.addEventListener('submit', (e) => {
-   e.preventDefault();
-   const filters = {
-     category: form.category.value,
-     price: form.price.value || null
-   };
-   applyFilter(filters);
- });
+//  form.addEventListener('submit', (e) => {
+//    e.preventDefault();
+//    const filters = {
+//      category: form.category.value,
+//      price: form.price.value || null
+//    };
+//    applyFilter(filters);
+//  });
 
  document.getElementById('reset').addEventListener('click', () => {
    form.reset();
