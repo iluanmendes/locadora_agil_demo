@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Locadora Ágil — Aluguel de Carros</title>
+  <meta name="description"
+    content="Locadora Ágil — Aluguéis de carros com opções econômicas, executivas e SUVs. Reserva online rápida e segura." />
+  <meta name="keywords" content="locadora, aluguel de carros, carro para alugar, rent a car, reserva" />
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+  <link rel="stylesheet" href="css/style_global.css">
+
+  <style>
+    /* =====================
+       Variáveis Modernizadas
+       ===================== */
+    :root {
+      /* Cores mais limpas e sofisticadas */
+      --bg-app: #f3f5f8;
+      /* Fundo geral ligeiramente mais frio */
+      --card-bg: #ffffff;
+      --text-main: #1a202c;
+      --text-muted: #64748b;
+
+      /* Azul principal mais vibrante */
+      --accent: #2563eb;
+      --accent-dark: #1d4ed8;
+
+      /* Bordas e Sombras Modernas */
+      --radius-lg: 20px;
+      /* Cantos mais arredondados */
+      --radius-md: 12px;
+      --radius-sm: 8px;
+
+      /* Sombra mais suave e difusa (estilo "elevação") */
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+      --border-color: #e2e8f0;
+      --max-width: 1200px;
+      /* Largura um pouco maior */
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      /* Fonte Inter garantida */
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.2s;
+    }
+
+    a:hover {
+      color: var(--accent);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      color: var(--text-main);
+      font-weight: 700;
+      /* Letter spacing negativo para títulos modernos */
+      letter-spacing: -0.025em;
+    }
+
+    /* =====================
+         Layout e Header
+         ===================== */
+    .page {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    header.header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .brand {
+      display: flex;
+      gap: .875rem;
+      align-items: center;
+    }
+
+    .logo {
+      width: 44px;
+      height: 44px;
+      background: var(--accent);
+      /* Gradiente sutil no logo */
+      background: linear-gradient(135deg, var(--accent), #60a5fa);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 1.1rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .brand h1 {
+      font-size: 1.25rem;
+      margin: 0;
+    }
+
+    .nav {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      font-weight: 500;
+    }
+
+    .nav a {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .nav a:hover {
+      color: var(--accent);
+    }
+
+    /* Botões Modernos */
+    .btn {
+      background: var(--accent);
+      color: #fff;
+      padding: .75rem 1.25rem;
+      /* Mais preenchimento */
+      border-radius: 999px;
+      /* Formato pílula */
+      border: 0;
+      cursor: pointer;
+      font-weight: 600;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-secondary {
+      background: #eef2ff;
+      color: var(--accent);
+    }
+
+    .btn-secondary:hover {
+      background: #dfe7ff;
+      color: var(--accent-dark);
+    }
+
+    /* =====================
+         Hero & Search Area
+         ===================== */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 3rem;
+      align-items: start;
+      /* Alinha ao topo */
+      margin-bottom: 3rem;
+      /* Removemos o background do container hero para ficar mais limpo */
+    }
+
+    .hero .intro h2 {
+      font-size: 2.5rem;
+      /* Título maior */
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .hero .intro p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 1.125rem;
+    }
+
+    /* Search card moderno */
+    .search-card {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      /* Sombra mais proeminente */
+      border: 1px solid var(--border-color);
+      position: sticky;
+      top: 20px;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Inputs modernos */
+    input,
+    select {
+      width: 100%;
+      padding: .75rem 1rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background: #f8fafc;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      transition: all 0.2s;
+      appearance: none;
+      /* Remove estilo padrão do OS */
+    }
+
+    /* Adiciona ícone de seta customizado para o select (truque CSS) */
+    select {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 0.75rem center;
+      background-repeat: no-repeat;
+      background-size: 1.25em 1.25em;
+      padding-right: 2.5rem;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      /* Anel de foco moderno */
+      background: #fff;
+    }
+
+    label {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: .5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    /* 
+    ==========================================
+      Grid de Cards Modernizados
+    ========================================== 
+    */
+
+    
+  
+    #cars h3 {
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .cars-grid {
+      display: grid;
+      /* Colunas um pouco mais largas */
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      /* Mais espaço entre cards */
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      /* Borda super sutil */
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+
+    /* Efeito de hover no card */
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card-media {
+      height: 200px;
+      /* Imagem mais alta */
+      width: 100%;
+      background: #eef2ff;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+      /* Mais espaçamento interno */
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      flex: 1;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      margin: 0;
+    }
+
+    .card-text {
+      color: var(--text-muted);
+      font-size: .95rem;
+      flex-grow: 1;
+      /* Garante que o texto ocupe espaço */
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      /* Preço e badge separados */
+      align-items: center;
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .badge {
+      background: #f1f5f9;
+      color: var(--text-muted);
+      padding: .35rem .75rem;
+      border-radius: 999px;
+      font-size: .75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .price {
+      font-weight: 800;
+      color: var(--text-main);
+      font-size: 1.1rem;
+    }
+
+    .price span {
+      font-size: 0.8em;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .card-actions {
+      padding: 1.5rem;
+      padding-top: 0;
+      /* Já tem padding no body */
+      display: grid;
+      gap: .75rem;
+    }
+
+    .btn-lease {
+      width: 100%;
+      /* Botão full width */
+      justify-content: center;
+      display: flex;
+    }
+
+    .details-link {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* =====================
+         Footer & Responsive
+         ===================== */
+    footer {
+      margin-top: 4rem;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-muted);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .muted {
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .hero .intro h2 {
+        font-size: 2rem;
+      }
+
+      .search-card {
+        position: static;
+        /* Remove sticky no mobile */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .nav {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .card-media {
+        height: 160px;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="page" id="page">
+    <header class="header" role="banner">
+      <a href="#" class="brand" aria-label="Locadora Ágil - página inicial">
+        <div class="logo" aria-hidden="true">LA</div>
+        <div>
+          <h1>Locadora Ágil</h1>
+          <div class="muted" style="font-size:.8rem">Alugue rápido. Dirija feliz.</div>
+        </div>
+      </a>
+
+      <nav class="nav" role="navigation" aria-label="Menu principal">
+        <a href="#cars" class="muted">Veículos</a>
+        <a href="#about" class="muted">Sobre</a>
+        <button class="btn" id="open-reserve">Reservar</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="intro">
+          <h2 id="hero-title">Encontre o carro ideal para a sua viagem</h2>
+          <p>Selecione a categoria, datas e filtre por preço. Temos econômicos, executivos e SUVs com seguro incluso.
+          </p>
+        </div>
+
+        <aside class="search-card" aria-label="Busca de veículos">
+          <form id="search-form">
+            <div style="margin-bottom:.5rem">
+              <label for="category">Categoria</label>
+              <select id="category" name="category">
+                <option value="all">Todas</option>
+                <option value="economico">Econômico</option>
+                <option value="executivo">Executivo</option>
+                <option value="suv">SUV</option>
+              </select>
+            </div>
+
+            <div class="search-row">
+              <div style="flex:1">
+                <label for="from">Retirada</label>
+                <input id="from" type="date" aria-label="Data de retirada" />
+              </div>
+              <div style="flex:1">
+                <label for="to">Devolução</label>
+                <input id="to" type="date" aria-label="Data de devolução" />
+              </div>
+            </div>
+
+            <div style="margin-bottom:.6rem">
+              <label for="price">Preço máximo (R$)</label>
+              <input id="price" type="number" min="0" placeholder="Ex: 200" aria-label="Preço máximo" />
+            </div>
+
+            <div style="display:flex; gap:.5rem;">
+              <button class="btn" type="submit">Filtrar</button>
+              <button type="button" id="reset"
+                style="background:#e6eefc;border-radius:8px;padding:.55rem .75rem;border:0;cursor:pointer">Limpar</button>
+            </div>
+          </form>
+        </aside>
+      </section>
+
+      <section id="cars" aria-labelledby="cars-title">
+        <h3 id="cars-title">Nossos veículos</h3>
+
+        <div class="cars-grid" id="cars-grid">
+          <!-- Card 1 -->
+          <article class="card" data-category="economico" data-price="95" tabindex="0">
+            <img class="card-media"
+              src="https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=7d3e2b7df1a6b3f4a9c7b7bd3f3a8f1b"
+              alt="Carro compacto prata" />
+            <div class="card-body">
+              <h4 class="card-title">Econômico Compacto</h4>
+              <p class="card-text">Perfeito para cidades — baixo consumo e fácil de estacionar.</p>
+              <div class="card-meta">
+                <span class="badge">Econômico</span>
+                <span class="price">R$95/dia</span>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-lease" data-id="1">Alugar</button>
+                <a href="#" class="muted" style="text-decoration:underline">Detalhes</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="card" data-category="executivo" data-price="180" tabindex="0">
+            <img class="card-media"
+              src="https://images.unsplash.com/photo-1549921296-3a97b24f3f66?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=b02d7e3c5f4b6d3f5c7a9d0c6b8e2f3a"
+              alt="Sedã executivo preto" />
+            <div class="card-body">
+              <h4 class="card-title">Executivo Sedã</h4>
+              <p class="card-text">Conforto e tecnologia para viagens e clientes corporativos.</p>
+              <div class="card-meta">
+                <span class="badge">Executivo</span>
+                <span class="price">R$180/dia</span>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-lease" data-id="2">Alugar</button>
+                <a href="#" class="muted" style="text-decoration:underline">Detalhes</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="card" data-category="suv" data-price="240" tabindex="0">
+            <img class="card-media"
+              src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=8d9f3e0f1b9a1f2e3c4d5b6a7c8e9f0a"
+              alt="SUV prata em estrada" />
+            <div class="card-body">
+              <h4 class="card-title">SUV Confort</h4>
+              <p class="card-text">Espaço e segurança para famílias e viagens longas.</p>
+              <div class="card-meta">
+                <span class="badge">SUV</span>
+                <span class="price">R$240/dia</span>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-lease" data-id="3">Alugar</button>
+                <a href="#" class="muted" style="text-decoration:underline">Detalhes</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="card" data-category="economico" data-price="110" tabindex="0">
+            <img class="card-media"
+              src="https://images.unsplash.com/photo-1493238792000-8113da705763?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=2f3a4b5c6d7e8f90123456789abcdef0"
+              alt="Hatch vermelho" />
+            <div class="card-body">
+              <h4 class="card-title">Hatch Ágil</h4>
+              <p class="card-text">Economia com um pouco mais de espaço e estilo.</p>
+              <div class="card-meta">
+                <span class="badge">Econômico</span>
+                <span class="price">R$110/dia</span>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-lease" data-id="4">Alugar</button>
+                <a href="#" class="muted" style="text-decoration:underline">Detalhes</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 5 -->
+          <article class="card" data-category="executivo" data-price="210" tabindex="0">
+            <img class="card-media"
+              src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=3a4b5c6d7e8f90123456789abcdef123"
+              alt="Sedã cinza luxo" />
+            <div class="card-body">
+              <h4 class="card-title">Lux Sedan</h4>
+              <p class="card-text">Motor potente e acabamento premium para ocasiões especiais.</p>
+              <div class="card-meta">
+                <span class="badge">Executivo</span>
+                <span class="price">R$210/dia</span>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-lease" data-id="5">Alugar</button>
+                <a href="#" class="muted" style="text-decoration:underline">Detalhes</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 6 -->
+          <article class="card" data-category="suv" data-price="270" tabindex="0">
+            <img class="card-media"
+              src="https://images.unsplash.com/photo-1517849845537-4d257902454a?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=abcdef1234567890abcdef1234567890"
+              alt="SUV preto" />
+            <div class="card-body">
+              <h4 class="card-title">Grand SUV</h4>
+              <p class="card-text">Capacidade e potência para qualquer terreno.</p>
+              <div class="card-meta">
+                <span class="badge">SUV</span>
+                <span class="price">R$270/dia</span>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-lease" data-id="6">Alugar</button>
+                <a href="#" class="muted" style="text-decoration:underline">Detalhes</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <section id="about" style="margin-top:1.25rem">
+        <h3>Sobre a Locadora Ágil</h3>
+        <p class="muted">Fundada em 2015, nossa missão é oferecer carros seguros com atendimento ágil e transparente.
+          Todos os veículos passam por checagem completa antes de cada locação.</p>
+      </section>
+    </main>
+
+    <footer>
+      © <span id="year"></span> Locadora Ágil — Todos os direitos reservados • <a href="#">Política de Privacidade</a>
+    </footer>
+  </div>
+
+  <script>
+    // Inserir ano no rodapé
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Filtro simples (JavaScript para demonstração)
+    const form = document.getElementById('search-form');
+    const grid = document.getElementById('cars-grid');
+    const cards = Array.from(grid.querySelectorAll('.card'));
+
+    function applyFilter(filters) {
+      cards.forEach(card => {
+        const cat = card.dataset.category;
+        const price = Number(card.dataset.price);
+        let visible = true;
+        if (filters.category && filters.category !== 'all') visible = visible && (cat === filters.category);
+        if (filters.price) visible = visible && (price <= Number(filters.price));
+        card.style.display = visible ? '' : 'none';
+      });
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const filters = {
+        category: form.category.value,
+        price: form.price.value || null
+      };
+      applyFilter(filters);
+    });
+
+    document.getElementById('reset').addEventListener('click', () => {
+      form.reset();
+      applyFilter({ category: 'all' });
+    });
+
+    // Reservar -> demonstração: foca no primeiro card visível
+    document.getElementById('open-reserve').addEventListener('click', () => {
+      const firstVisible = cards.find(c => c.style.display !== 'none');
+      if (firstVisible) firstVisible.querySelector('.btn-lease').focus();
+    });
+
+    // Ação do botão alugar (simples)
+    grid.addEventListener('click', (e) => {
+      if (e.target.classList.contains('btn-lease')) {
+        const card = e.target.closest('.card');
+        const title = card.querySelector('.card-title').textContent;
+        alert('Iniciando reserva: ' + title + '\n(Implementar backend para completar o fluxo)');
+      }
+    });
+
+    // Melhorar navegação por teclado: mostrar outline ao focar via teclado
+    (function () {
+      function handleFirstTab(e) {
+        if (e.key === 'Tab') {
+          document.body.classList.add('user-is-tabbing');
+          window.removeEventListener('keydown', handleFirstTab);
+        }
+      }
+      window.addEventListener('keydown', handleFirstTab);
+    })();
+  </script>
+</body>
+
+</html>

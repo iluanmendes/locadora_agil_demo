@@ -59,10 +59,10 @@
         </div>
 
         <aside class="search-card" aria-label="Busca de veículos">
-          <form id="search-form" name="pesquisa">
+          <form id="search-form" name="pesquisa" action="pesquisa.php">
             <div class="form-group">
               <label for="category">Categoria do veículo</label>
-              <select id="category" name="category">
+              <select id="category" name="categoria">
                 <option value="all">Todas as categorias</option>
 
                 <?php foreach ($categorias as $categoria): ?>
@@ -88,7 +88,7 @@
 
             <div class="form-group">
               <label for="price">Preço máximo por dia (R$)</label>
-              <input id="price" type="number" min="0" placeholder="Ex: 250" aria-label="Preço máximo" />
+              <input  name="preco" id="price" type="number" min="0" placeholder="Ex: 250" aria-label="Preço máximo" />
             </div>
 
             <div style="display:grid; grid-template-columns: 2fr 1fr; gap:.75rem;">
