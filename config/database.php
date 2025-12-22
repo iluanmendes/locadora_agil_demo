@@ -7,7 +7,7 @@ class Database
     public static function getConnection()
     {
         if (!self::$pdo) {
-            $host = "10.91.49.22";
+            $host = "192.168.15.15";
             $db   = "locadora_agil";
             $user = "admin";
             $pass = "123456";

@@ -1,36 +1,39 @@
-@import url(style_global.css);
-.container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 0 1.5rem;
-}
+/* style_pesquisa.css
+   Layout robusto para a página de pesquisa (Sidebar + Grid)
+*/
 
-
-/* Estrutura de Grelha Principal */
+/* --- LAYOUT GRID PRINCIPAL --- */
 .results-layout {
     display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 2rem;
+    /* A mágica acontece aqui:
+       280px para a sidebar fixa.
+       minmax(0, 1fr) para o conteúdo. 
+       Isso IMPEDE que o conteúdo "estoure" a largura em telas menores ou com grids internos.
+    */
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 2.5rem;
     align-items: start;
 }
 
-/* Filtros (Barra Lateral) */
+/* --- SIDEBAR DE FILTROS --- */
 .filter-sidebar {
-    background: var(--card-bg);
+    background: var(--surface);
     padding: 1.5rem;
     border-radius: var(--radius-lg);
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
+    
+    /* Sticky: Acompanha o scroll suavemente */
     position: sticky;
-    top: 100px;
+    top: 20px; 
+    z-index: 10;
 }
 
 .filter-section {
     margin-bottom: 1.5rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--border-color);
 }
-
 .filter-section:last-child {
     border-bottom: 0;
     margin-bottom: 0;
@@ -45,51 +48,75 @@
     letter-spacing: 0.05em;
 }
 
+/* Opções (Inputs) */
 .filter-option {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.75rem;
     margin-bottom: 0.75rem;
     cursor: pointer;
     font-size: 0.95rem;
     color: var(--text-muted);
+    transition: color 0.2s;
+}
+.filter-option:hover { color: var(--primary); }
+
+.filter-option input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary);
+    margin: 0;
+    cursor: pointer;
 }
 
-.filter-option input[type="checkbox"],
-.filter-option input[type="radio"] {
-    width: 18px !important; 
-    height: 18px !important;
-    accent-color: var(--accent) !important;
-    cursor: pointer !important;
-    appearance: auto!important;
-}
-
-
-.price-range-group {
+/* Input de Preço customizado */
+.price-input-wrapper {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 0.5rem;
-}
-
-.price-range-group input {
-    width: 100%;
-    padding: 0.65rem;
-    border-radius: var(--radius-sm);
+    background: var(--bg-app);
     border: 1px solid var(--border-color);
-    font-family: inherit;
+    border-radius: var(--radius-sm);
+    padding: 0 0.75rem;
+}
+.price-input-wrapper input {
+    border: none;
+    background: transparent;
+    padding: 0.75rem 0;
+    box-shadow: none; /* Remove sombra do input global */
+}
+.price-input-wrapper input:focus {
+    box-shadow: none;
+    outline: none;
 }
 
-/* Cabeçalho dos Resultados */
+/* Botões da Sidebar */
+.btn-apply-filters {
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.link-clear {
+    display: block; 
+    text-align: center; 
+    margin-top: 1rem; 
+    font-size: 0.85rem; 
+    color: var(--text-muted); 
+    text-decoration: underline;
+}
+
+/* --- ÁREA DE CONTEÚDO --- */
 .results-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
-}
-
-.results-count {
-    font-size: 1.1rem;
-    font-weight: 600;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background: var(--surface);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
 }
 
 .sort-box {
@@ -97,128 +124,93 @@
     align-items: center;
     gap: 0.75rem;
 }
-
 .sort-select {
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-color);
-    background: white;
-    font-family: inherit;
+    padding: 0.4rem 2rem 0.4rem 0.8rem;
+    min-width: 140px;
     font-size: 0.9rem;
-    cursor: pointer;
 }
 
-/* Grelha de Veículos */
-.cars-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-}
+/* --- GRID DE CARDS & ESTILIZAÇÃO ESPECÍFICA --- */
+/* (Reusa .cars-grid do global, mas podemos refinar aqui se necessário) */
 
-/* Card do Veículo */
-.card {
-    background: var(--card-bg);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border-color);
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: flex;
-    flex-direction: column;
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-}
-
-.card-media {
-    height: 190px;
-    background: #f8fafc;
+.card-media-wrapper {
     position: relative;
+    height: 200px;
+    overflow: hidden;
+    background: #e2e8f0;
 }
-
-.card-media img {
+.card-media {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s;
+}
+.card:hover .card-media {
+    transform: scale(1.05);
 }
 
 .category-badge {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: rgba(255, 255, 255, 0.9);
+    top: 10px;
+    right: 10px;
+    background: rgba(255,255,255,0.95);
     padding: 0.3rem 0.8rem;
     border-radius: 99px;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    color: var(--accent);
-    text-transform: uppercase;
-    backdrop-filter: blur(4px);
+    color: var(--text-main);
     box-shadow: var(--shadow-sm);
-}
-
-.card-body {
-    padding: 1.5rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.card-title {
-    font-size: 1.25rem;
-    margin: 0 0 0.5rem 0;
-    font-weight: 700;
+    z-index: 2;
 }
 
 .card-specs {
     display: flex;
     gap: 1rem;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
     font-size: 0.85rem;
     color: var(--text-muted);
 }
-
-.spec-item {
+.card-specs span {
     display: flex;
     align-items: center;
-    gap: 0.3rem;
+    gap: 0.35rem;
 }
 
-.card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: auto;
-    padding-top: 1.25rem;
-    border-top: 1px solid #f1f5f9;
+.btn-sm {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.9rem;
 }
 
-.price-value {
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: var(--text-main);
-}
-
-.price-value span {
-    font-size: 0.8rem;
-    font-weight: 400;
+/* Estado Vazio */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
     color: var(--text-muted);
 }
 
-.btn-apply-filters {
-    width: 100%;
-    margin-top: 1rem;
-}
-
-/* Responsividade */
-@media (max-width: 960px) {
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 900px) {
     .results-layout {
+        /* Vira uma coluna única em mobile/tablet */
         grid-template-columns: 1fr;
     }
 
     .filter-sidebar {
-        position: static;
-        margin-bottom: 2rem;
+        position: relative; /* Remove sticky */
+        top: 0;
+        z-index: 1;
+    }
+    
+    .results-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .sort-box {
+        width: 100%;
+        justify-content: space-between;
     }
 }

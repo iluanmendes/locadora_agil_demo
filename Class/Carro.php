@@ -14,30 +14,37 @@ class Carro
     public function listar()
     {
         $sql = "SELECT 
-        c.id,
-        c.modelo,                 -- Título do Card (Ex: Econômico Compacto)
-        c.descricao,              -- Texto descritivo
-        c.preco_diaria,           -- Preço para exibir e filtrar
-        c.imagem_url,             -- Foto do carro
-        cat.nome AS categoria     -- Nome da categoria para o Badge (Ex: Econômico)
-        FROM 
-        carros c
-        INNER JOIN 
-        categorias cat ON c.categoria_id = cat.id
-        WHERE 
-        c.disponivel = TRUE;      -- Apenas carros que não estão em manutenção";
-        
+                c.*, 
+                cat.nome AS categoria 
+            FROM 
+                carros c
+            INNER JOIN 
+                categorias cat ON c.categoria_id = cat.id
+            WHERE 
+                c.status_carro = 'DISPONIVEL'";
         return $this->pdo->query($sql)->fetchAll();
         
     }
 
     public function buscarPorId($id)
     {
-        $sql = "SELECT * FROM usuarios WHERE id = :id";
-        $stmt = $this->pdo->prepare($sql);
+        $conn = Database::getConnection();
+
+        // Query corrigida para trazer todos os detalhes técnicos
+        $sql = "SELECT 
+                    c.*, 
+                    cat.nome AS categoria 
+                FROM 
+                    carros c
+                INNER JOIN 
+                    categorias cat ON c.categoria_id = cat.id
+                WHERE 
+                    c.id = :id";
+
+        $stmt = $conn->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetch();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
